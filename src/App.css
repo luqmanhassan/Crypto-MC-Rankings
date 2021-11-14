@@ -8,3 +8,11 @@ h2 {
   text-align: center;
   margin: 30px auto;
 }
+
+span {
+  margin: auto 10px;
+}
+
+img {
+  width: 10px;
+}
