@@ -7,6 +7,7 @@ import twitter from './twitter.svg';
 function App() {
   let cry = [];
   const [cryptos, setCryptos] = useState([]);
+  const [trend, setTrend] = useState([]);
   const [mode, setMode] = useState('dark');
   const [fav, setFav] = useState({check: 'yes'});
   const mk_call = () => {
@@ -18,6 +19,7 @@ function App() {
         return response.json();
       })
       .then(function (response) {
+        console.log('IN MK Call');
         cry = [];
         for (let i = 0; i < 100; i++) {
           cry.push(response[i]);
@@ -25,11 +27,24 @@ function App() {
         setCryptos(cry);
       });
   };
+  const trending = () => {
+    fetch('https://api.coingecko.com/api/v3/search/trending', {mode: 'cors'})
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (response) {
+        let trending_coins = [];
+        for (let i = 0; i < 7; i++) {
+          trending_coins.push(response.coins[i]);
+        }
+        setTrend(trending_coins);
+      });
+  };
 
   useEffect(() => {
     setTimeout(() => {
       mk_call();
-    }, 10000);
+    }, 1000);
   });
 
   return (
@@ -46,8 +61,21 @@ function App() {
       </header>
       <div className="topbar">
         <span>
-          <button>Market Cap</button>
-          <button>Trending</button>
+          <button
+            onClick={() => {
+              mk_call();
+            }}
+          >
+            Market Cap
+          </button>
+          <button
+            className="trending_btn"
+            onClick={() => {
+              trending();
+            }}
+          >
+            Trending
+          </button>
         </span>
         <span>
           <input
@@ -87,17 +115,19 @@ function App() {
 
         <span>Data updates every 10 sec.</span>
       </div>
-      <div className="lastbar">
-        <span>#</span>
-        <span>&#9759;</span>
-        <span>Coin</span>
-        <span>&#9756;</span>
-        <span>Price</span>
-        <span>24h</span>
-        <span>Mkt Cap</span>
-      </div>
+      {cryptos.length > 0 && (
+        <div className="lastbar">
+          <span>#</span>
+          <span>&#9759;</span>
+          <span>Coin</span>
+          <span>&#9756;</span>
+          <span>Price</span>
+          <span>24h</span>
+          <span>Mkt Cap</span>
+        </div>
+      )}
       <div className="data">
-        {cryptos.length &&
+        {cryptos.length > 0 &&
           cryptos.map((item, index) => {
             return (
               <div key={index} className={'coin ' + item.name}>
@@ -122,12 +152,26 @@ function App() {
                     {item.market_cap_change_percentage_24h}
                   </span>
                 )}
-
                 <span>{item.market_cap}</span>
               </div>
             );
           })}
       </div>
+      {trend.length > 0 && (
+        <div className="trend-bar">
+          <span className="search">Trending Search &#9759;</span>
+          {trend.length > 0 &&
+            trend.map((item, index) => {
+              return (
+                <div key={index} className="trending_coins">
+                  <span>{item.item.market_cap_rank}</span>
+                  <span>{item.item.name}</span>
+                  <span>{item.item.symbol}</span>
+                </div>
+              );
+            })}
+        </div>
+      )}
       <footer>
         <img src={twitter} alt="Twitter" />
         <img src={faqs} alt="Faqs" />
@@ -136,12 +180,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
-
-/*
-
-
-
-
-*/
