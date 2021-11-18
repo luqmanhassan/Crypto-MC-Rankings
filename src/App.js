@@ -6,10 +6,15 @@ import twitter from './twitter.svg';
 
 function App() {
   let cry = [];
+  let theme = {
+    one: {backgroundColor: 'black', color: 'white'},
+    two: {backgroundColor: 'white', color: 'black'},
+  };
   const [cryptos, setCryptos] = useState([]);
   const [trend, setTrend] = useState([]);
   const [mode, setMode] = useState('dark');
   const [fav, setFav] = useState({check: 'yes'});
+  const [bam, setBam] = useState(0);
   const mk_call = () => {
     fetch(
       'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false',
@@ -48,48 +53,30 @@ function App() {
   });
 
   return (
-    <div
-      className="App"
-      style={
-        mode === 'dark'
-          ? {backgroundColor: 'black'}
-          : {backgroundColor: 'green'}
-      }
-    >
+    <div className="App" style={mode === 'dark' ? theme.one : theme.two}>
       <header>
-        <h1>Cryptocurrency Rankings</h1>
+        <h1
+          style={
+            mode === 'dark'
+              ? {
+                  color: 'green',
+                  textShadow:
+                    '-1px 0 white, 0 5px white, 5px 0 white, 0 -1px white',
+                }
+              : {
+                  color: 'green',
+                  textShadow:
+                    '-1px 0 black, 0 5px black, 5px 0 black, 0 -1px black',
+                }
+          }
+        >
+          Cryptocurrency Rankings
+        </h1>
       </header>
       <div className="topbar">
         <span>
           <button
-            onClick={() => {
-              mk_call();
-            }}
-          >
-            Market Cap
-          </button>
-          <button
-            className="trending_btn"
-            onClick={() => {
-              trending();
-            }}
-          >
-            Trending
-          </button>
-        </span>
-        <span>
-          <input
-            placeholder="SEARCH"
-            onChange={() => {
-              console.log('you inn');
-              document.getElementsByClassName('coin')[1].display = 'none';
-            }}
-          />
-        </span>
-      </div>
-      <div className="midbar">
-        <span>
-          <button
+            style={mode === 'dark' ? theme.one : theme.two}
             onClick={() => {
               if (mode === 'dark') {
                 setMode('light');
@@ -101,6 +88,7 @@ function App() {
             {mode === 'dark' ? <>&#9788;</> : <>&#9790;</>}
           </button>
           <button
+            style={mode === 'dark' ? theme.one : theme.two}
             onClick={() => {
               if (fav.check === 'yes') {
                 setFav({check: 'no'});
@@ -112,18 +100,28 @@ function App() {
             {fav.check === 'yes' ? <>&#9734;</> : <>&#9733;</>}
           </button>
         </span>
-
-        <span>Data updates every 10 sec.</span>
+        <span>Data updates every 1 sec.</span>
+        <span>
+          <input
+            placeholder="SEARCH"
+            className="search"
+            style={mode === 'dark' ? theme.one : theme.two}
+            onChange={(ev) => {
+              setBam(Number(String(ev.target.value).length));
+              trending();
+            }}
+          />
+        </span>
       </div>
       {cryptos.length > 0 && (
         <div className="lastbar">
-          <span>#</span>
-          <span>&#9759;</span>
-          <span>Coin</span>
-          <span>&#9756;</span>
-          <span>Price</span>
-          <span>24h</span>
-          <span>Mkt Cap</span>
+          <span style={mode === 'dark' ? theme.one : theme.two}>#</span>
+          <span style={mode === 'dark' ? theme.one : theme.two}>&#9759;</span>
+          <span style={mode === 'dark' ? theme.one : theme.two}>Coin</span>
+          <span style={mode === 'dark' ? theme.one : theme.two}>&#9756;</span>
+          <span style={mode === 'dark' ? theme.one : theme.two}>Price</span>
+          <span style={mode === 'dark' ? theme.one : theme.two}>24h</span>
+          <span style={mode === 'dark' ? theme.one : theme.two}>Mkt Cap</span>
         </div>
       )}
       <div className="data">
@@ -131,8 +129,12 @@ function App() {
           cryptos.map((item, index) => {
             return (
               <div key={index} className={'coin ' + item.name}>
-                <span>
-                  <span id="fav_btn" onClick={() => {}}>
+                <span style={mode === 'dark' ? theme.one : theme.two}>
+                  <span
+                    id="fav_btn"
+                    onClick={() => {}}
+                    style={mode === 'dark' ? theme.one : theme.two}
+                  >
                     {fav.check === 'yes' ? <>&#9734;</> : <>&#9733;</>}
                   </span>
                   {item.market_cap_rank}
@@ -140,9 +142,15 @@ function App() {
                 <span>
                   <img src={item.image} alt="logo" />
                 </span>
-                <span>{item.name}</span>
-                <span>{item.symbol}</span>
-                <span>{item.current_price}</span>
+                <span style={mode === 'dark' ? theme.one : theme.two}>
+                  {item.name}
+                </span>
+                <span style={mode === 'dark' ? theme.one : theme.two}>
+                  {item.symbol}
+                </span>
+                <span style={mode === 'dark' ? theme.one : theme.two}>
+                  {item.current_price}
+                </span>
                 {item.market_cap_change_percentage_24h > 0 ? (
                   <span style={{color: 'green'}}>
                     {item.market_cap_change_percentage_24h}
@@ -152,14 +160,17 @@ function App() {
                     {item.market_cap_change_percentage_24h}
                   </span>
                 )}
-                <span>{item.market_cap}</span>
+                <span style={mode === 'dark' ? theme.one : theme.two}>
+                  {item.market_cap}
+                </span>
               </div>
             );
           })}
       </div>
-      {trend.length > 0 && (
-        <div className="trend-bar">
-          <span className="search">Trending Search &#9759;</span>
+
+      {bam > 0 && (
+        <div className="trend-bar" id="trend-bar">
+          <span className="search-span">Trending Search &#9759;</span>
           {trend.length > 0 &&
             trend.map((item, index) => {
               return (
