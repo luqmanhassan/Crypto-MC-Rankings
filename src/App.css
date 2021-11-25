@@ -31,16 +31,16 @@ header h1 {
   border: 5px solid black;
 }
 
-.lastbar {
+.lastbar div {
   display: flex;
   justify-content: space-around;
   box-shadow: 10px 10px;
   margin: 20px auto;
-  padding: 10px;
+  padding: 10px 40px 10px 10px;
   border: 5px solid black;
 }
 
-.lastbar span {
+.lastbar div span {
   width: 10px;
   color: white;
 }
@@ -50,7 +50,7 @@ header h1 {
   justify-content: space-around;
   box-shadow: 10px 10px;
   margin: 20px auto;
-  padding: 10px;
+  padding: 10px 40px 10px 10px;
   border: 5px solid black;
 }
 .data span {
@@ -61,6 +61,8 @@ header h1 {
 img {
   width: 20px;
   background-color: white;
+
+  box-shadow: 0px 0px 10px white;
 }
 button {
   padding: 10px;
