@@ -66,14 +66,19 @@ function Data(props) {
     return z;
   };
   return (
-    <div className="data">
+    <div className="data container mx-auto ">
       {props.cryptos.length > 0 &&
         props.cryptos.map((item, index) => {
           return (
-            <div key={index} className={'coin ' + item.name}>
+            <div
+              key={index}
+              className="flex justify-around py-5 my-5 px-10 border-4 border-lime-500"
+            >
               <span
-                style={
-                  props.mode === 'dark' ? props.theme.one : props.theme.two
+                className={
+                  props.mode === 'dark'
+                    ? props.theme.one + ' flex-1'
+                    : props.theme.two + ' flex-1'
                 }
               >
                 {/*  
@@ -89,42 +94,49 @@ function Data(props) {
 
                 {item.market_cap_rank}
               </span>
-              <span>
-                <img src={item.image} alt="logo" />
+              <span className="flex-1 flex flex-col justify-center ">
+                <img className="w-10 " src={item.image} alt="logo" />
+                <span
+                  className={
+                    props.mode === 'dark' ? props.theme.one : props.theme.two
+                  }
+                >
+                  {item.symbol}
+                </span>
               </span>
               <span
-                style={
-                  props.mode === 'dark' ? props.theme.one : props.theme.two
+                className={
+                  props.mode === 'dark'
+                    ? props.theme.one + ' flex-1 sm:block hidden'
+                    : props.theme.two + ' flex-1 sm:block hidden'
                 }
               >
                 {item.name}
               </span>
+
               <span
-                style={
-                  props.mode === 'dark' ? props.theme.one : props.theme.two
-                }
-              >
-                {item.symbol}
-              </span>
-              <span
-                style={
-                  props.mode === 'dark' ? props.theme.one : props.theme.two
+                className={
+                  props.mode === 'dark'
+                    ? props.theme.one + ' flex-1'
+                    : props.theme.two + ' flex-1'
                 }
               >
                 ${item.current_price}
               </span>
               {item.market_cap_change_percentage_24h > 0 ? (
-                <span style={{color: 'green'}}>
+                <span className="text-lime-500 flex-1 sm:block hidden">
                   {Number(item.market_cap_change_percentage_24h).toFixed(1)}
                 </span>
               ) : (
-                <span style={{color: 'red'}}>
+                <span className="text-red-500 flex-1 sm:block hidden">
                   {Number(item.market_cap_change_percentage_24h).toFixed(1)}
                 </span>
               )}
               <span
-                style={
-                  props.mode === 'dark' ? props.theme.one : props.theme.two
+                className={
+                  props.mode === 'dark'
+                    ? props.theme.one + ' flex-1'
+                    : props.theme.two + ' flex-1'
                 }
               >
                 ${item.market_cap && comas(item.market_cap)}

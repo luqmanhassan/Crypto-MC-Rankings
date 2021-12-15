@@ -8,8 +8,8 @@ import Topbar from './components/Topbar.js';
 const App = () => {
   let cry = [];
   let theme = {
-    one: {backgroundColor: 'black', color: 'white'},
-    two: {backgroundColor: 'white', color: 'black'},
+    one: ' bg-black text-white',
+    two: ' bg-white text-black',
   };
   const [cryptos, setCryptos] = useState([]);
   const [mode, setMode] = useState('dark');
@@ -37,9 +37,9 @@ const App = () => {
       mk_call();
     }, 1000);
   });
-
+  //
   return (
-    <div className="App" style={mode === 'dark' ? theme.one : theme.two}>
+    <div className={mode === 'dark' ? theme.one : theme.two}>
       <Header mode={mode} />
       <Topbar
         mode={mode}

@@ -4,10 +4,10 @@ import twitter from './images/twitter.svg';
 
 function Footer() {
   return (
-    <footer>
-      <img src={twitter} alt="Twitter" />
-      <img src={faqs} alt="Faqs" />
-      <img src={email} alt="Email" />
+    <footer className="container mx-auto flex justify-center p-5">
+      <img src={twitter} alt="Twitter" className="w-20" />
+      <img src={faqs} alt="Faqs" className="w-20" />
+      <img src={email} alt="Email" className="w-20" />
     </footer>
   );
 }

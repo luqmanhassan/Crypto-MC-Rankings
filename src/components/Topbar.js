@@ -19,11 +19,16 @@ function Topbar(props) {
         setTrend(trending_coins);
       });
   };
+
   return (
-    <div className="topbar">
+    <div className="container mx-auto flex justify-between py-5 px-10 border-4 border-lime-500">
       <span>
         <button
-          style={props.mode === 'dark' ? props.theme.one : props.theme.two}
+          className={
+            props.mode === 'dark'
+              ? props.theme.one + ' mr-4 text-xl'
+              : props.theme.two + ' mr-4 text-xl'
+          }
           onClick={() => {
             if (props.mode === 'dark') {
               props.setMode('light');
@@ -35,7 +40,11 @@ function Topbar(props) {
           {props.mode === 'dark' ? <>&#9788;</> : <>&#9790;</>}
         </button>
         <button
-          style={props.mode === 'dark' ? props.theme.one : props.theme.two}
+          className={
+            props.mode === 'dark'
+              ? props.theme.one + 'p-2 mr-4 text-xl'
+              : props.theme.two + 'p-2 mr-4 text-xl'
+          }
           onClick={() => {
             if (props.fav.check === 'yes') {
               props.setFav({check: 'no'});
@@ -47,12 +56,17 @@ function Topbar(props) {
           {props.fav.check === 'yes' ? <>&#9734;</> : <>&#9733;</>}
         </button>
       </span>
-      <span>Data updates every 1 sec.</span>
-      <span>
+
+      <span className=" ">
         <input
+          className={
+            props.mode === 'dark'
+              ? props.theme.one +
+                'p-2 border-4 border-lime-500 text-xl text-center relative'
+              : props.theme.two +
+                'p-2 border-4 border-lime-500 text-xl text-center relative'
+          }
           placeholder="SEARCH"
-          className="search"
-          style={props.mode === 'dark' ? props.theme.one : props.theme.two}
           onChange={(ev) => {
             props.setTsearch(Number(String(ev.target.value).length));
             trending();
@@ -60,12 +74,15 @@ function Topbar(props) {
         />
       </span>
       {props.tsearch > 0 && (
-        <div className="trend-bar" id="trend-bar">
-          <span className="search-span">Trending Search &#9759;</span>
+        <div className="trend-bar bg-lime-500 w-80 p-5 text-center absolute top-80 right-5 lg:top-56 lg:right-20">
+          <span className=" text-white underline">Trending Search &#9759;</span>
           {trend.length > 0 &&
             trend.map((item, index) => {
               return (
-                <div key={index} className="trending_coins">
+                <div
+                  key={index}
+                  className="m-5 text-black flex justify-between"
+                >
                   <span>{item.item.market_cap_rank}</span>
                   <span>{item.item.name}</span>
                   <span>{item.item.symbol}</span>
@@ -79,3 +96,4 @@ function Topbar(props) {
 }
 
 export default Topbar;
+// lg:top-56 lg:right-20
